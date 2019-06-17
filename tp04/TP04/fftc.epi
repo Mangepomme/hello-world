@@ -1,0 +1,11 @@
+open Types
+
+val fun bitrev1024(i : Types.complex^1024) returns (o : Types.complex^1024)
+val fun bitrev512(i : Types.complex^512) returns (o : Types.complex^512)
+val fun bitrev256(i : Types.complex^256) returns (o : Types.complex^256)
+val fun bitrev128(i : Types.complex^128) returns (o : Types.complex^128)
+val fun bitrev64(i : Types.complex^64) returns (o : Types.complex^64)
+val fun bitrev32(i : Types.complex^32) returns (o : Types.complex^32)
+val fun bitrev16(i : Types.complex^16) returns (o : Types.complex^16)
+val fun bitrev8(i : Types.complex^8) returns (o : Types.complex^8)
+

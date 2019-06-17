@@ -1,0 +1,6 @@
+
+type complex = {
+    re : float;
+    im : float
+  }
+
