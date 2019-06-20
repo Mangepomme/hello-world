@@ -1,8 +1,6 @@
 KDIR := /lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
 
-MODULE_NAME := chip
-
 obj-m := main.o
 
 all:

@@ -24,6 +24,7 @@ struct chip_dev {
         char *buffer;
 };
 
+
 static int major;
 static struct chip_dev *chip_dev;
 
@@ -77,10 +78,15 @@ ssize_t chip_write(struct file *filep, const char __user *buf, size_t len,
         return len;
 }
 
-/* Init and exit */
 static struct file_operations chip_fops = {
         .owner = THIS_MODULE,
+	.open = chip_open,
+	.read = chip_read,
+	.write = chip_write,
+	.release = chip_release
 };
+
+/* Init and exit */
 
 __init
 static int chip_init(void) {
@@ -89,7 +95,7 @@ static int chip_init(void) {
         int ret;
         const char devname[] = "chip";
 
-        /* allocate major */
+        // allocate major
         ret = alloc_chrdev_region(&dev, 0, 1, devname);
         if (ret < 0) {
                 pr_err("Failed to allocate major");
@@ -99,14 +105,14 @@ static int chip_init(void) {
                 major = MAJOR(dev);
         }
 
-        /* allocate char device */
+        // allocate char device
         chip_dev = kmalloc(sizeof(*chip_dev), GFP_KERNEL);
         if (! chip_dev) {
                 pr_err("Failed to allocate struct chip_dev");
                 return -ENOMEM;
         }
         
-        /* register char device */
+        // register char device 
         chip_dev->cdev.owner = THIS_MODULE;
         cdev_init(&chip_dev->cdev, &chip_fops);
         ret = cdev_add(&chip_dev->cdev, dev, 1);
@@ -123,13 +129,13 @@ __exit
 static void chip_exit(void) {
         dev_t dev;
 
-        /* unregister char device */
+        // unregister char device
         cdev_del(&chip_dev->cdev);
 
-        /* free char device */
+        // free char device
         kfree(chip_dev);
 
-        /* release major */
+        // release major
         dev = MKDEV(major, 0);
         unregister_chrdev_region(dev, 1);
 }
@@ -138,12 +144,14 @@ static void chip_exit(void) {
 int chip_probe(struct spi_device *spi_dev)
 {
         pr_info("probe\n");
+	chip_init();
         return 0;
 }
 
 int chip_remove(struct spi_device *spi_dev)
 {
         pr_info("remove\n");
+	chip_exit();
         return 0;
 }
 
@@ -164,6 +172,6 @@ static struct spi_driver chip_driver = {
         .remove = chip_remove
 };
 
-module_init(chip_init);
-module_exit(chip_exit);
+//module_init(chip_init);
+//module_exit(chip_exit);
 module_spi_driver(chip_driver);
