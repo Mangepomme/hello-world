@@ -1,5 +1,0 @@
-open Types
-val fun printcycle(int;int;int;int) returns ()
-val fun printvector(Types.complex^3) returns ()
-val fun printcomplex (Types.complex) returns ()
-val fun my_usleep (int) returns ()

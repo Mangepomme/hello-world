@@ -1,4 +1,0 @@
-open Types
-val fun read_samples(size:int) returns (samples:float^256)
-val fun write_samples(size:int;samples:float^256) returns ()
-
