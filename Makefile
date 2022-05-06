@@ -1,1 +1,2 @@
-g++ -o hello.exe hello.cpp
+all :
+	g++ -o hello.exe hello.cpp
